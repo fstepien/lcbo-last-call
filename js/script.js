@@ -14,13 +14,10 @@
 
 const app = {};
 
-app.myLocation = { lat: 43.64918, long: -79.397859};
-app.storeLocation = {
-  lat: 0,
-  long: 0
-};
+app.myLocation = { lat: 43.64918, long: -79.397859 };
+app.storeLocation = { lat: 0, long: 0 };
 app.locationCloseTime = 0;
-app.travelTimeMinutes = 0;
+app.travelTimeSeconds = { DRIVING: 0, TRANSIT: 0, BICYCLING: 0, WALKING: 0 };
 
 //Ask for geolocation
 app.geolocateMyLocation = function() {
@@ -60,7 +57,7 @@ app.getLocationData = function() {
     data: {
       access_key:
         "MDoxNjM0YjQyYS01MmY0LTExZTgtOGFhMS1hN2YxZTA1NzdjODk6MldudWRQa3FWbzRMWmFPSE1yYTFZaUpEQ2YwSGNUWjBnQUJU",
-        order: 'distance_in_meters',
+      order: "distance_in_meters"
     }
   }).then(apiData => {
     return app.getClosestLocation(apiData.result);
@@ -68,7 +65,6 @@ app.getLocationData = function() {
 };
 
 app.getClosestLocation = function(locationData) {
-
   const closestLocation = locationData[0];
 
   // location.name, location.longitude, location.latitude
@@ -77,60 +73,80 @@ app.getClosestLocation = function(locationData) {
   app.storeLocation.long = closestLocation.longitude;
   app.storeLocation.lat = closestLocation.latitude;
 
-
-  // Today returns today's day in numerical value
-  // 0 - Sunday, 1 - Monday, 6 - Saturday and etc.
+  // Today returns today's day in numerical value with 0 - Sunday, 1 - Monday, 6 - Saturday and etc.
   const today = new Date().getDay();
-
-  const daysArr = ['sunday_close', 'monday_close', 'tuesday_close', 'wednesday_close', 'thursday_close', 'friday_close', 'saturday_close'];
-  // This will set match the day with the correct
-  // closing day call 
-  let closingDay = daysArr[today];
-  console.log(`Closing day is:`, closingDay);
-  // returns the closing time of the current day
-  app.locationCloseTime = closestLocation[closingDay];
-  console.log('todays close time:', app.locationCloseTime);
-  
+  const daysArr = [
+    "sunday_close",
+    "monday_close",
+    "tuesday_close",
+    "wednesday_close",
+    "thursday_close",
+    "friday_close",
+    "saturday_close"
+  ];
+  // returns the closing time of the current day in seconds (api returns in mins)
+  app.locationCloseTime = closestLocation[daysArr[today]] * 60;
   app.getTravelTime();
 };
 
 app.getTravelTime = function() {
+  const travelModes = ["DRIVING", "TRANSIT", "BICYCLING", "WALKING"];
   let origin = new google.maps.LatLng(app.myLocation.lat, app.myLocation.long);
-  let destination = new google.maps.LatLng(app.storeLocation.lat, app.storeLocation.long);
-  var service = new google.maps.DistanceMatrixService();
-  service.getDistanceMatrix(
-    {
-      origins: [origin],
-      destinations: [destination],
-      travelMode: 'DRIVING',
-    }, callback);
+  let destination = new google.maps.LatLng(
+    app.storeLocation.lat,
+    app.storeLocation.long
+  );
+  // From Google DistanceMatrix API
+  let service = new google.maps.DistanceMatrixService();
+  // for each travel mode get travel time
+  count = 0;
+  travelModes.forEach(travelMode => {
+    service.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: travelMode
+      },
+      function(response, status) {
+        //all functions returned untill callback up to this poing... check if we can async/await before instead of using counter to hold back startCounter()
+        let travelModeTimeSeconds = response.rows[0].elements[0].duration.value;
+        app.travelTimeSeconds[travelMode] = travelModeTimeSeconds;
+        count++;
+        console.log(count);
+        count == 4 ? app.startCounter() : "";
+      }
+    );
+  });
+};
 
-  function callback(response, status) {
-    // See Parsing the Results for
-    // the basics of a callback function.
-    let travelTimeSeconds = response.rows[0].elements[0].duration.value;
-    app.travelTimeMinutes = Math.ceil(travelTimeSeconds / 60);
+app.startCounter = function() {
+  app.calculateCounters();
+};
+
+app.calculateCounters = function() {
+  const hours = new Date().getHours();
+  const minutes = new Date().getMinutes();
+  const seconds = new Date().getSeconds();
+  let currentTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
+  console.log(app.travelTimeSeconds);
+  for (let key in app.travelTimeSeconds) {
+    let countDown =
+      app.locationCloseTime - app.travelTimeSeconds[key] - currentTimeInSeconds;
+    // set countdown to zero if it is below zero
+    if (countDown <= 0) {
+      countDown = 0;
+    }
+    console.log(key, countDown);
   }
-}
 
-app.howLongDoWeHave = function() {
-  const currentTimeHour = new Date().getHours();
-  const currentTimeMinutes = new Date().getMinutes();
-  let currentTimeMinutesTotal = (currentTimeHour * 60) + currentTimeMinutes;
-  console.log(currentTimeMinutesTotal); 
-  console.log(`countdown CLose time`, app.locationCloseTime);
-  console.log(`Travel time in minutes is:`, app.travelTimeMinutes);
-  const countDown = app.locationCloseTime - app.travelTimeMinutes - currentTimeMinutesTotal;
-  console.log(countDown);
-}
-
+  // console.log("count down in seconds", countDown);
+};
 
 app.events = function() {};
 
 app.init = function() {
   app.events();
   app.geolocateMyLocation();
-
 };
 
 $(function() {
