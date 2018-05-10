@@ -16,20 +16,10 @@ const app = {};
 
 app.myLocation = { lat: 43.64918, long: -79.397859 };
 app.storeLocation = { lat: 0, long: 0 };
+app.locationInfo = { name: "", address1: "", city: "", postal: "" };
+app.locationOpenTime = 0;
 app.locationCloseTime = 0;
 app.travelTimeSeconds = { DRIVING: 0, TRANSIT: 0, BICYCLING: 0, WALKING: 0 };
-app.counter = {
-  DRIVING: { hr: 0, min: 0, sec: 0 },
-  TRANSIT: { hr: 0, min: 0, sec: 0 },
-  BICYCLING: { hr: 0, min: 0, sec: 0 },
-  WALKING: { hr: 0, min: 0, sec: 0 }
-};
-app.travelTime = {
-  DRIVING: { hr: 0, min: 0, sec: 0 },
-  TRANSIT: { hr: 0, min: 0, sec: 0 },
-  BICYCLING: { hr: 0, min: 0, sec: 0 },
-  WALKING: { hr: 0, min: 0, sec: 0 }
-};
 
 //Ask for geolocation
 app.geolocateMyLocation = function() {
@@ -78,31 +68,35 @@ app.getLocationData = function() {
 
 app.getClosestLocation = function(locationData) {
   const closestLocation = locationData[0];
-
-  // location.name, location.longitude, location.latitude
-  let locationName = closestLocation.name;
-
+  app.locationInfo.name = closestLocation.name;
+  app.locationInfo.address1 = closestLocation.address_line_1;
+  app.locationInfo.city = closestLocation.city;
+  app.locationInfo.postal = closestLocation.postal_code;
   app.storeLocation.long = closestLocation.longitude;
   app.storeLocation.lat = closestLocation.latitude;
 
   // Today returns today's day in numerical value with 0 - Sunday, 1 - Monday, 6 - Saturday and etc.
   const today = new Date().getDay();
   const daysArr = [
-    "sunday_close",
-    "monday_close",
-    "tuesday_close",
-    "wednesday_close",
-    "thursday_close",
-    "friday_close",
-    "saturday_close"
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday"
   ];
+
   // returns the closing time of the current day in seconds (api returns in mins)
-  app.locationCloseTime = closestLocation[daysArr[today]] * 60;
+  app.locationCloseTime = closestLocation[daysArr[today] + "_close"] * 60;
+  app.locationOpenTime = closestLocation[daysArr[today] + "_open"] * 60;
   app.getTravelTime();
 };
 
 app.getTravelTime = function() {
   const travelModes = ["DRIVING", "TRANSIT", "BICYCLING", "WALKING"];
+  // for testing hacker you origin lat: 43.64918, long: -79.397859
+  // let origin = new google.maps.LatLng(43.64918, -79.397859);
   let origin = new google.maps.LatLng(app.myLocation.lat, app.myLocation.long);
   let destination = new google.maps.LatLng(
     app.storeLocation.lat,
@@ -131,6 +125,8 @@ app.getTravelTime = function() {
 };
 
 app.startCounter = function() {
+  // display results here SWITCH OUT OF LOADING SCREEN!!!
+  console.log(app.locationInfo);
   // run funcitons below in set intervals and display on page every second
   // setInterval(app.calculateCounters, 1000);
   app.calculateCounters();
@@ -141,7 +137,7 @@ app.calculateCounters = function() {
   const minutes = new Date().getMinutes();
   const seconds = new Date().getSeconds();
   let currentTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
-  console.log(app.travelTimeSeconds);
+  // for each travel mode (stored in keys) calc counter time and travel time
   for (let key in app.travelTimeSeconds) {
     let countdownSeconds =
       app.locationCloseTime - app.travelTimeSeconds[key] - currentTimeInSeconds;
@@ -149,26 +145,30 @@ app.calculateCounters = function() {
     if (countdownSeconds <= 0) {
       countdownSeconds = 0;
     }
+
     //Calculate hr, min, sec for counter
     let hoursCounter = Math.floor(countdownSeconds / 3600);
     countdownSeconds %= 3600;
     let minutesCounter = Math.floor(countdownSeconds / 60);
     let secondsCounter = countdownSeconds % 60;
-    app.counter[key].hr = hoursCounter;
-    app.counter[key].min = minutesCounter;
-    app.counter[key].sec = secondsCounter;
+
     // Calculate hr, min for Travel Time
-    let hoursTravel = Math.floor(countdownSeconds / 3600);
-    countdownSeconds %= 3600;
-    let minutesTravel = Math.floor(countdownSeconds / 60);
-    let secondsTravel = countdownSeconds % 60;
-    app.travelTime[key].hr = hoursTravel;
-    app.travelTime[key].min = minutesTravel;
-    app.travelTime[key].sec = secondsTravel;
-    console.log(key, app.counter[key], app.travelTime[key]);
-    $(".hour").text(hoursCounter);
-    $(".minutes").text(minutesCounter);
-    $(".seconds").text(secondsCounter);
+    let travelSeconds = app.travelTimeSeconds[key];
+    let hoursTravel = Math.floor(travelSeconds / 3600);
+    travelSeconds %= 3600;
+    let minutesTravel = Math.floor(travelSeconds / 60);
+    let secondsTravel = travelSeconds % 60;
+    const pad = num => (num < 10 ? "0" : "") + num;
+    let finalCounter = `${pad(hoursCounter)} : ${pad(minutesCounter)} : ${pad(
+      secondsCounter
+    )}`;
+
+    let finalTravelTime = `${hoursTravel === 0 ? "" : hoursTravel + " hrs "}${
+      minutesTravel === 0 ? "" : minutesTravel + " min"
+    } ${minutesTravel === 0 ? secondsTravel : ""}`;
+
+    console.log(key, "counter:", finalCounter);
+    console.log(key, "travel time:", finalTravelTime);
   }
 
   // console.log("count down in seconds", countDown);
