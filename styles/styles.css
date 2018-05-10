@@ -3,3 +3,40 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 .visuallyhidden:not(:focus):not(:active) { position: absolute; width: 1px; height: 1px; margin: -1px;border: 0;padding: 0;white-space: nowrap;clip-path: inset(100%);clip: rect(00 0 0);overflow: hidden;}
+
+/* Custom CSS */
+
+    main {
+        text-align: center;
+    }
+
+    .time-container {
+        display: inline-block;
+    }
+
+    .hour,
+    .minutes,
+    .seconds {
+        border-bottom: blue 1.5px solid;
+        border-radius: 5px;
+        padding: 0 5px;
+        box-shadow: 0 3px 2px silver;
+        font-size: 3rem;
+    }
+
+    .make-it span {
+        color: rgb(137, 224, 5);
+        font-size: 1rem;
+    }
+
+    .mode-of-transport {
+        display: flex;
+        justify-content: center;
+        padding-left: 0;
+    }
+
+    .mode-of-transport li {
+        list-style-type: none;
+        padding: 10px 20px;
+        font-size: 30px;
+    }
