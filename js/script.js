@@ -18,6 +18,18 @@ app.myLocation = { lat: 43.64918, long: -79.397859 };
 app.storeLocation = { lat: 0, long: 0 };
 app.locationCloseTime = 0;
 app.travelTimeSeconds = { DRIVING: 0, TRANSIT: 0, BICYCLING: 0, WALKING: 0 };
+app.counter = {
+  DRIVING: { hr: 0, min: 0, sec: 0 },
+  TRANSIT: { hr: 0, min: 0, sec: 0 },
+  BICYCLING: { hr: 0, min: 0, sec: 0 },
+  WALKING: { hr: 0, min: 0, sec: 0 }
+};
+app.travelTime = {
+  DRIVING: { hr: 0, min: 0, sec: 0 },
+  TRANSIT: { hr: 0, min: 0, sec: 0 },
+  BICYCLING: { hr: 0, min: 0, sec: 0 },
+  WALKING: { hr: 0, min: 0, sec: 0 }
+};
 
 //Ask for geolocation
 app.geolocateMyLocation = function() {
@@ -112,7 +124,6 @@ app.getTravelTime = function() {
         let travelModeTimeSeconds = response.rows[0].elements[0].duration.value;
         app.travelTimeSeconds[travelMode] = travelModeTimeSeconds;
         count++;
-        console.log(count);
         count == 4 ? app.startCounter() : "";
       }
     );
@@ -120,6 +131,8 @@ app.getTravelTime = function() {
 };
 
 app.startCounter = function() {
+  // run funcitons below in set intervals and display on page every second
+  // setInterval(app.calculateCounters, 1000);
   app.calculateCounters();
 };
 
@@ -130,13 +143,32 @@ app.calculateCounters = function() {
   let currentTimeInSeconds = hours * 3600 + minutes * 60 + seconds;
   console.log(app.travelTimeSeconds);
   for (let key in app.travelTimeSeconds) {
-    let countDown =
+    let countdownSeconds =
       app.locationCloseTime - app.travelTimeSeconds[key] - currentTimeInSeconds;
     // set countdown to zero if it is below zero
-    if (countDown <= 0) {
-      countDown = 0;
+    if (countdownSeconds <= 0) {
+      countdownSeconds = 0;
     }
-    console.log(key, countDown);
+    //Calculate hr, min, sec for counter
+    let hoursCounter = Math.floor(countdownSeconds / 3600);
+    countdownSeconds %= 3600;
+    let minutesCounter = Math.floor(countdownSeconds / 60);
+    let secondsCounter = countdownSeconds % 60;
+    app.counter[key].hr = hoursCounter;
+    app.counter[key].min = minutesCounter;
+    app.counter[key].sec = secondsCounter;
+    // Calculate hr, min for Travel Time
+    let hoursTravel = Math.floor(countdownSeconds / 3600);
+    countdownSeconds %= 3600;
+    let minutesTravel = Math.floor(countdownSeconds / 60);
+    let secondsTravel = countdownSeconds % 60;
+    app.travelTime[key].hr = hoursTravel;
+    app.travelTime[key].min = minutesTravel;
+    app.travelTime[key].sec = secondsTravel;
+    console.log(key, app.counter[key], app.travelTime[key]);
+    $(".hour").text(hoursCounter);
+    $(".minutes").text(minutesCounter);
+    $(".seconds").text(secondsCounter);
   }
 
   // console.log("count down in seconds", countDown);
