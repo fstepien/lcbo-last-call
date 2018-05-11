@@ -126,10 +126,26 @@ app.getTravelTime = function() {
 
 app.startCounter = function() {
   // display results here SWITCH OUT OF LOADING SCREEN!!!
-  console.log(app.locationInfo);
+
+  $(".name-input").html(app.locationInfo.name);
+  $(".adress-input").html(app.locationInfo.address1);
+  const pad = num => (num < 10 ? "0" : "") + num;
+  const time = secondsInput => {
+    let seconds = secondsInput;
+    let hours = pad(Math.floor(seconds / 3600));
+    seconds %= 3600;
+    let minutes = pad(Math.floor(seconds / 60));
+
+    return hours + minutes;
+  };
+
+  const openClose = `${time(app.locationOpenTime)} TO ${time(
+    app.locationCloseTime
+  )}`;
+  $(".hours-input").html(openClose);
   // run funcitons below in set intervals and display on page every second
-  // setInterval(app.calculateCounters, 1000);
-  app.calculateCounters();
+  setInterval(app.calculateCounters, 1000);
+  // app.calculateCounters();
 };
 
 app.calculateCounters = function() {
@@ -166,12 +182,9 @@ app.calculateCounters = function() {
     let finalTravelTime = `${hoursTravel === 0 ? "" : hoursTravel + " hrs "}${
       minutesTravel === 0 ? "" : minutesTravel + " min"
     } ${minutesTravel === 0 ? secondsTravel : ""}`;
-
-    console.log(key, "counter:", finalCounter);
-    console.log(key, "travel time:", finalTravelTime);
+    $(`li[data-mode=${key}]>.counter`).html(finalCounter);
+    $(`li[data-mode=${key}]>.travel-time`).html(finalTravelTime);
   }
-
-  // console.log("count down in seconds", countDown);
 };
 
 app.events = function() {};
