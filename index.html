@@ -7,88 +7,128 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>LCBO Last Call</title>
 
+    <!-- Font Playfair Display & Roboto Mono -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto+Mono:300,400" rel="stylesheet">
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="styles/styles.css">
+
 </head>
 
 <body>
 
     <main>
 
-        <form action="#">
+        <!-- <form action="#">
 
             <label for="location visuallyhidden"></label>
             <input type="text" placeholder="Your location" name="location" id="location">
 
             <input type="submit" placeholder="Can I make it?">
 
-        </form>
+        </form> -->
 
         <section>
 
-            <h1>LCBO Last Call</h1>
+            <header>
+                <h1>LCBO Last Call</h1>
+            </header>
+
             <ul class="mode-of-transport">
+
                 <li>
-                    <i class="fas fa-bicycle"></i>
+                    <span>
+                        <i class="fas fa-map-marker"></i>
+                    </span>
+                    <p class="counter time-text">Leave by:</p>
+                    <p class="travel time-text">Travel Time</p>
+                
                 </li>
-                <li>
-                    <i class="fas fa-bus"></i>
+
+                <li data-mode="WALKING">
+                    <span class="green">
+                        <i class="fas fa-street-view"></i>
+                    </span>
+                    <p class="counter">01:20:21</p>
+                    <p class="travel-time"><span>1h30m</span></p>
+
                 </li>
-                <li>
-                    <i class="fas fa-car"></i>
+
+                <li data-mode = "BICYCLING">
+                    <span class="green">
+                        <i class="fas fa-bicycle"></i>
+                    </span>
+                    <p class="counter">01:20:21</p>
+                    <p class="travel-time"><span>1h30m</span></p>
+
                 </li>
-                <li>
-                    <i class="fas fa-street-view"></i>
+
+                <li  data-mode = "TRANSIT">
+                    <span class="green">
+                        <i class="fas fa-bus"></i>
+                    </span>
+                    <p class="counter">01:03:21</p>
+                    <p class="travel-time"><span>1h30m</span></p>
+
                 </li>
+
+                <li  data-mode = "DRIVING">
+                    <span class="green">
+                        <i class="fas fa-car"></i>
+                    </span>
+                    <p class="counter">01:20:21</p>
+                    <p class="travel-time"><span>1h30m</span></p>
+                </li>
+            
             </ul>
-            <!-- <h2 class="leave-within">
-                Leaving within:
-                <br>
-                <span class="time-container">
-                    <span class="hour">0</span>
-                    h:
-                </span>
 
-                <span class="time-container">
-                    <span class="minutes">2</span>
-                    m:
-                </span>
-
-                <span class="time-container">
-                    <span class="seconds">3</span>
-                    s
-                </span> -->
-
-            </h2>
+            
 
             <div class="result">
 
-                <h2>Closest LCBO located at:</h2>
+                <h3 class="dark-olive">Store Info</h3>
 
                 <p>Name:
-                    <span></span>
+                    <span>Queen & Spadina</span>
                 </p>
-                <p class="address">Address 1:
+                <p class="address">
+                    Address:
                     <span>401 Queen Street West</span>
                 </p>
-                <p class="address">Address 2:
-                    <span>unit 543</span>
-                </p>
-                <p>Today's Hours of Operation is:
+                <p>Hours:
                     <span>1pm to 9am</span>
                 </p>
-                <p class="make-it">
-
-                    Will I make it?
-                    <span>
-                        <i class="far fa-check-circle"></i>
-                    </span>
-
-                </p>
-
-
+        
             </div>
 
+        </section>
+
+        <section class="utilities">
+            <ul>
+                <li>
+                    <p>Refresh</p>
+                    <span class="util-icon-container">
+                        <button>
+                            <i class="fas fa-sync"></i>
+                        </button>
+                    </span>
+                </li>
+                <li>
+                    <p>Map</p>
+                    <span class="util-icon-container">
+                        <button>
+                            <i class="far fa-map"></i>
+                        </button>
+                    </span>
+                </li>
+                <li>
+                    <p>Manual</p>
+                    <span class="util-icon-container">
+                        <button>
+                            <i class="far fa-edit"></i>
+                        </button>
+                    </span>
+                </li>
+            </ul>
         </section>
 
     </main>
