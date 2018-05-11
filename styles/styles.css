@@ -173,10 +173,50 @@ input::-moz-focus-inner {
   overflow: hidden;
 }
 
+/* Universal Application */
+
+.green {
+  color: rgb(29, 202, 29);
+}
+
+.orange {
+  color: orange;
+}
+
+.red {
+  color: red;
+}
+
+.dark-olive {
+  color: #012c17;
+}
+
+
+html {
+  font-family: 'Playfair Display',
+  serif;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
 /* Custom CSS */
 
-main {
-  text-align: center;
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+  linear-gradient(75deg, rgba(52, 253, 253, 0.39), rgba(176, 255, 131, 0.3)),
+  url(../assets/alcohol-bar-blur-300.jpg) no-repeat;
+  background-position: cover;
+}
+
+header h1 {
+  margin: 20px 0 15px 0;
+  color: white;
 }
 
 .time-container {
@@ -193,20 +233,133 @@ main {
   font-size: 3rem;
 }
 
-.make-it span {
-  color: rgb(137, 224, 5);
-  font-size: 1rem;
-}
-
 .mode-of-transport {
   display: flex;
-  flex-flow: column nowrap;
+  flex-direction: column;
   justify-content: center;
-  padding-left: 0;
+  text-align: center;
+  padding-bottom: 10px;
+  background: rgb(253, 247, 245);
 }
 
 .mode-of-transport li {
   list-style-type: none;
-  padding: 10px 20px;
-  font-size: 30px;
+  padding: 7px 30px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.mode-of-transport li:first-child {
+  padding: 0 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.mode-of-transport li:first-child span {
+  color: grey;
+}
+
+.counter.time-text {
+  flex: 1 1 auto;
+}
+
+.mode-of-transport span {
+  width: 10%;
+}
+
+.mode-of-transport img {
+  width: 10%;
+  height: 20px;
+}
+
+.mode-of-transport p {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+p.time-text {
+  font-size: 0.9rem;
+  font-family: 'Playfair Display',
+  serif;
+  color: grey;
+}
+
+.counter {
+  flex: 1 1 auto;
+  font-family: 'Roboto Mono',
+  monospace;
+}
+
+.travel-time {
+  font-family: 'Roboto Mono',
+  monospace;
+}
+
+/* Store Info. */
+.result {
+  padding: 10px 30px;
+  border-top: 2px solid lightgrey;
+  border-bottom: 2px solid lightgrey;
+  text-transform: uppercase;
+  background: rgb(253, 247, 245);
+}
+
+.result h3 {
+  margin: 0 0 15px 0;
+}
+
+.result p {
+  margin: 8px 0;
+  font-weight: 300;
+  font-family: 'Roboto Mono',
+  monospace;
+  font-size: 0.8rem;
+}
+
+.travelTime span {
+  font-size: 1rem;
+}
+
+.make-it {
+  margin: 0 auto;
+  width: auto;
+  text-align: center;
+}
+
+/* Utilities */
+
+.utilities {
+  text-align: center;
+  padding-top: 4%;
+  background: rgb(253, 247, 245);
+}
+
+.utilities ul {
+  display: flex;
+  height: 20.5vh;
+  justify-content: space-around;
+}
+
+.utilities li {
+  list-style-type: none;
+
+}
+
+.utilities p {
+  margin: 0;
+}
+
+.util-icon-container {
+  font-size: 1.5rem;
+}
+
+.util-icon-container button {
+  background-color: white;
+  border: 2px solid rgb(40, 204, 204);
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin: 10px 0;
 }
