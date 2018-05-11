@@ -193,6 +193,7 @@ input::-moz-focus-inner {
 
 html {
   font-family: "Playfair Display", serif;
+  font-size: 62.5%;
 }
 
 ul {
@@ -208,7 +209,7 @@ wrapper {
 
 body {
   height: 100vh;
-  background: rgb(253, 247, 245);
+  background: rgb(247, 247, 247);
 }
 
 header {
@@ -227,20 +228,11 @@ header {
 header h1 {
   margin: 20px 0 15px 0;
   color: white;
+  font-size: 4rem;
 }
 
 .time-container {
   display: inline-block;
-}
-
-.hour,
-.minutes,
-.seconds {
-  border-bottom: blue 1.5px solid;
-  border-radius: 5px;
-  padding: 0 5px;
-  box-shadow: 0 3px 2px silver;
-  font-size: 3rem;
 }
 
 .mode-of-transport {
@@ -249,27 +241,26 @@ header h1 {
   justify-content: center;
   text-align: center;
   padding-bottom: 10px;
-  background: rgb(253, 247, 245);
 }
 
 .mode-of-transport li {
   list-style-type: none;
-  padding: 7px 30px;
-  font-size: 20px;
+  padding: 7px 20px;
+  font-size: 2rem;
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
 .mode-of-transport li:first-child {
-  padding: 0 30px;
   text-align: center;
   display: flex;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .mode-of-transport li:first-child span {
-  color: grey;
+  border: none;
 }
 
 .counter.time-text {
@@ -281,8 +272,9 @@ span.travel-time-counter {
   display: block;
 }
 
-.mode-of-transport .icon {
-  width: 10%;
+.icon {
+  width: 30px;
+  border-radius: 5px;
 }
 
 .mode-of-transport img {
@@ -292,11 +284,11 @@ span.travel-time-counter {
 
 .mode-of-transport p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.8rem;
 }
 
 p.time-text {
-  font-size: 0.8rem;
+  font-size: 1.6rem;
   font-family: "Playfair Display", serif;
   text-transform: uppercase;
   font-weight: 700;
@@ -305,31 +297,37 @@ p.time-text {
 .counter {
   flex: 1 1 80px;
   font-family: "Roboto Mono", monospace;
+  font-weight: 300;
 }
 
 .travel-time {
   font-family: "Roboto Mono", monospace;
-  background: Red;
+  flex: 0 0 70px;
+  font-weight: 300;
 }
 
 /* Store Info. */
+
+
 .result {
   padding: 10px 30px;
   border-top: 2px solid lightgrey;
   border-bottom: 2px solid lightgrey;
   text-transform: uppercase;
-  background: rgb(253, 247, 245);
 }
 
 .result h3 {
   margin: 0 0 15px 0;
+  font-size: 1.6rem;
+  font-family: "Playfair Display",
+  serif;
 }
 
 .result p {
   margin: 8px 0;
   font-weight: 300;
   font-family: "Roboto Mono", monospace;
-  font-size: 0.8rem;
+  font-size: 1.3rem;
 }
 
 .travelTime span {
@@ -346,34 +344,40 @@ p.time-text {
 
 .utilities {
   text-align: center;
-  padding-top: 4%;
-  background: rgb(253, 247, 245);
 }
 
 .utilities ul {
+  padding-top: 15px;
   display: flex;
-  height: 20.5vh;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .utilities li {
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: Center;
 }
 
 .utilities p {
   margin: 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.6rem;
 }
 
 .util-icon-container {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 .util-icon-container button {
-  height: 60px;
-  width: 60px;
-  background-color: white;
+  height: 44px;
+  width: 44px;
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
   border: 2px solid rgb(40, 204, 204);
   border-radius: 10px;
-  padding: 10px 15px;
-  margin: 10px 0;
+  margin: 10px 25%;
 }
