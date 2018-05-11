@@ -126,7 +126,6 @@ app.getTravelTime = function() {
 
 app.startCounter = function() {
   // display results here SWITCH OUT OF LOADING SCREEN!!!
-
   $(".name-input").html(app.locationInfo.name);
   $(".adress-input").html(app.locationInfo.address1);
   const pad = num => (num < 10 ? "0" : "") + num;
@@ -187,7 +186,25 @@ app.calculateCounters = function() {
   }
 };
 
-app.events = function() {};
+app.events = function() {
+  $("#refresh").on("click", () => {
+    app.getTravelTime();
+  });
+  $("#map").on("click", () => {
+    const win = window.open(
+      `https://www.google.com/maps/dir/?api=1&destination=${
+        app.storeLocation.lat
+      },${app.storeLocation.long}`,
+      "_blank"
+    );
+    if (win) {
+      win.focus();
+    } else {
+      alert("Please allow popups for this website");
+    }
+  });
+  $("#manual").on("click", () => {});
+};
 
 app.init = function() {
   app.events();
