@@ -292,24 +292,24 @@ span.travel-time-counter {
 
 .mode-of-transport p {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 p.time-text {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-family: "Playfair Display", serif;
-  color: grey;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .counter {
-  flex: 1 1 auto;
+  flex: 1 1 80px;
   font-family: "Roboto Mono", monospace;
 }
 
 .travel-time {
   font-family: "Roboto Mono", monospace;
+  background: Red;
 }
 
 /* Store Info. */
