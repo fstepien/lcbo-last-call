@@ -33,76 +33,84 @@
                 <h1>LCBO Last Call</h1>
             </header>
 
-            <ul class="mode-of-transport">
+            <ul class="mode-of-transport wrapper">
 
                 <li>
-                    <span>
+                    <span class="icon">
                         <i class="fas fa-map-marker"></i>
                     </span>
-                    <p class="counter time-text">Leave by:</p>
-                    <p class="travel time-text">Travel Time</p>
-                
+                    <p class="counter time-text">Leave by</p>
+                    <p class="travel time-text travel-time-counter">Travel Time</p>
+
                 </li>
 
                 <li data-mode="WALKING">
-                    <span class="green">
+                    <span class="green icon">
                         <i class="fas fa-street-view"></i>
                     </span>
                     <p class="counter">01:20:21</p>
-                    <p class="travel-time"><span>1h30m</span></p>
+                    <p class="travel-time">
+                        <span class="travel-time-counter">1h 30m</span>
+                    </p>
 
                 </li>
 
-                <li data-mode = "BICYCLING">
-                    <span class="green">
+                <li data-mode="BICYCLING">
+                    <span class="orange icon">
                         <i class="fas fa-bicycle"></i>
                     </span>
                     <p class="counter">01:20:21</p>
-                    <p class="travel-time"><span>1h30m</span></p>
+                    <p class="travel-time">
+                        <span class="travel-time-counter">1h 30m</span>
+                    </p>
 
                 </li>
 
-                <li  data-mode = "TRANSIT">
-                    <span class="green">
+                <li data-mode="TRANSIT">
+                    <span class="red icon">
                         <i class="fas fa-bus"></i>
                     </span>
                     <p class="counter">01:03:21</p>
-                    <p class="travel-time"><span>1h30m</span></p>
+                    <p class="travel-time">
+                        <span class="travel-time-counter">1h 30m</span>
+                    </p>
 
                 </li>
 
-                <li  data-mode = "DRIVING">
-                    <span class="green">
+                <li data-mode="DRIVING">
+                    <span class="green icon">
                         <i class="fas fa-car"></i>
                     </span>
                     <p class="counter">01:20:21</p>
-                    <p class="travel-time"><span>1h30m</span></p>
+                    <p class="travel-time">
+                        <span class="travel-time-counter">1h 30m</span>
+                    </p>
                 </li>
-            
+
             </ul>
 
-            
 
-            <div class="result">
+
+            <div class="result wrapper">
 
                 <h3 class="dark-olive">Store Info</h3>
 
                 <p>Name:
-                    <span>Queen & Spadina</span>
+                    <span class="name-input">Queen & Spadina</span>
                 </p>
                 <p class="address">
                     Address:
-                    <span>401 Queen Street West</span>
+                    <span class="address-input">401 Queen Street West</span>
                 </p>
                 <p>Hours:
-                    <span>1pm to 9am</span>
+                    <span class="hours-input">1pm to 9am</span>
                 </p>
-        
+
             </div>
 
         </section>
 
-        <section class="utilities">
+        <section class="utilities wrapper">
             <ul>
                 <li>
                     <p>Refresh</p>
