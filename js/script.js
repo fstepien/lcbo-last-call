@@ -12,6 +12,57 @@
 // C. Show more than 1 location
 // D. Let us know which method of travel is viable to selected location
 
+styles = [
+  {
+    featureType: "all",
+    elementType: "all",
+    stylers: [
+      {
+        hue: "#00ffbc"
+      }
+    ]
+  },
+  {
+    featureType: "poi",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "road",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: -70
+      }
+    ]
+  },
+  {
+    featureType: "transit",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "water",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "simplified"
+      },
+      {
+        saturation: -60
+      }
+    ]
+  }
+];
+
 const app = {};
 
 app.myLocation = { lat: 43.64918, long: -79.397859 };
@@ -135,6 +186,7 @@ app.startCounter = function() {
   // display results here SWITCH OUT OF LOADING SCREEN!!!
   $(".name-input").html(app.locationInfo.name);
   $(".address-input").html(app.locationInfo.address1);
+
   const pad = num => (num < 10 ? "0" : "") + num;
   const time = secondsInput => {
     let seconds = secondsInput;
@@ -149,6 +201,7 @@ app.startCounter = function() {
     app.locationCloseTime
   )}`;
   $(".hours-input").html(openClose);
+  app.liveMap();
   // run funcitons below in set intervals and display on page every second
   setInterval(app.calculateCounters, 1000);
   // app.calculateCounters();
@@ -193,7 +246,11 @@ app.calculateCounters = function() {
     $(".loading").css("display", "none");
     if (countdownSeconds === 0) {
       $(`li[data-mode=${key}]>.icon`).addClass("red");
-    } else if (countdownSeconds < 900 && countdownSeconds > 0) {
+    } else if (
+      countdownSeconds < 900 &&
+      countdownSeconds > 0 &&
+      hoursCounter === 0
+    ) {
       $(`li[data-mode=${key}]>.icon`).addClass("orange");
     } else {
       $(`li[data-mode=${key}]>.icon`).addClass("green");
@@ -211,6 +268,7 @@ app.events = function() {
   });
   $("#refresh").on("click", () => {
     app.locationProxity = 0;
+    $(".next-store").css("display", "none");
     app.getLocationData();
   });
   $("#map").on("click", () => {
@@ -229,53 +287,48 @@ app.events = function() {
   $("#manual").on("click", () => {});
 };
 
-app.liveMap = async function() {
-    await app.getLocationData();
-    const myDot = { lat: app.myLocation.lat, lng: app.myLocation.long };
-    const map = new google.maps.Map(document.getElementById('liveMap'), {
-      zoom: 12,
-      center: myDot
-    });
-    const marker = new google.maps.Marker({
-      position: myDot,
-      map: map
-    });
-    let lcboDot = { lat: app.storeLocation.lat, lng: app.storeLocation.long };
-    let marker2 = new google.maps.Marker({
-      position: lcboDot,
-      map: map
-    });
+app.liveMap = function() {
+  const origin = {
+    lat: app.myLocation.lat,
+    lng: app.myLocation.long
   };
+  const destination = {
+    lat: app.storeLocation.lat,
+    lng: app.storeLocation.long
+  };
+  const directionsService = new google.maps.DirectionsService();
+  const directionsDisplay = new google.maps.DirectionsRenderer();
+  const map = new google.maps.Map(document.getElementById("liveMap"), {
+    zoom: 12,
+    center: destination,
+    styles
+  });
 
+  directionsDisplay.setMap(map);
 
-// This supposedly the route calculator, but it dosnt work. Sorry! 
-// app.calcRoute = function() {
-//   let directionsService = new google.maps.DirectionsService;
-//   let directionsDisplay = new google.maps.DirectionsRenderer;
-//   let pos1 = new google.maps.LatLng(app.myLocation.lat, app.myLocation.long);
-//   console.log(app.myLocation.lat, app.storeLocation.lat);
-//   let pos2 = new google.maps.LatLng(app.storeLocation.lat, app.storeLocation.long);
-//   console.log(pos1, pos2);
+  calculateAndDisplayRoute(directionsService, directionsDisplay);
 
-//   directionsDisplay.setMap(app.map);
-
-//   directionsService.route({
-//     origin: pos1,
-//     destination: pos2,
-//     travelMode: 'DRIVING'
-//   }, function (response, status) {
-//     if (status === 'OK') {
-//       directionsDisplay.setDirections(response);
-//     } else {
-//       window.alert('Directions request failed due to ' + status);
-//     }
-//   });
-// }
+  function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    directionsService.route(
+      {
+        origin,
+        destination,
+        travelMode: "WALKING"
+      },
+      function(response, status) {
+        if (status === "OK") {
+          directionsDisplay.setDirections(response);
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      }
+    );
+  }
+};
 
 app.init = function() {
   app.events();
   app.geolocateMyLocation();
-  app.liveMap();
 };
 
 $(function() {
