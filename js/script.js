@@ -229,9 +229,53 @@ app.events = function() {
   $("#manual").on("click", () => {});
 };
 
+app.liveMap = async function() {
+    await app.getLocationData();
+    const myDot = { lat: app.myLocation.lat, lng: app.myLocation.long };
+    const map = new google.maps.Map(document.getElementById('liveMap'), {
+      zoom: 12,
+      center: myDot
+    });
+    const marker = new google.maps.Marker({
+      position: myDot,
+      map: map
+    });
+    let lcboDot = { lat: app.storeLocation.lat, lng: app.storeLocation.long };
+    let marker2 = new google.maps.Marker({
+      position: lcboDot,
+      map: map
+    });
+  };
+
+
+// This supposedly the route calculator, but it dosnt work. Sorry! 
+// app.calcRoute = function() {
+//   let directionsService = new google.maps.DirectionsService;
+//   let directionsDisplay = new google.maps.DirectionsRenderer;
+//   let pos1 = new google.maps.LatLng(app.myLocation.lat, app.myLocation.long);
+//   console.log(app.myLocation.lat, app.storeLocation.lat);
+//   let pos2 = new google.maps.LatLng(app.storeLocation.lat, app.storeLocation.long);
+//   console.log(pos1, pos2);
+
+//   directionsDisplay.setMap(app.map);
+
+//   directionsService.route({
+//     origin: pos1,
+//     destination: pos2,
+//     travelMode: 'DRIVING'
+//   }, function (response, status) {
+//     if (status === 'OK') {
+//       directionsDisplay.setDirections(response);
+//     } else {
+//       window.alert('Directions request failed due to ' + status);
+//     }
+//   });
+// }
+
 app.init = function() {
   app.events();
   app.geolocateMyLocation();
+  app.liveMap();
 };
 
 $(function() {
