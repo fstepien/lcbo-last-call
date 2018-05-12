@@ -19,6 +19,9 @@ app.storeLocation = { lat: 0, long: 0 };
 app.locationInfo = { name: "", address1: "", city: "", postal: "" };
 app.locationOpenTime = 0;
 app.locationCloseTime = 0;
+// Count of Stores Cycled through
+app.locationProxity = 0;
+
 app.travelTimeSeconds = { DRIVING: 0, TRANSIT: 0, BICYCLING: 0, WALKING: 0 };
 
 //Ask for geolocation
@@ -67,7 +70,8 @@ app.getLocationData = function() {
 };
 
 app.getClosestLocation = function(locationData) {
-  const closestLocation = locationData[0];
+  //app.locationProxity set to 0 getting first location....
+  const closestLocation = locationData[app.locationProxity];
   app.locationInfo.name = closestLocation.name;
   app.locationInfo.address1 = closestLocation.address_line_1;
   app.locationInfo.city = closestLocation.city;
@@ -90,6 +94,9 @@ app.getClosestLocation = function(locationData) {
   // returns the closing time of the current day in seconds (api returns in mins)
   app.locationCloseTime = closestLocation[daysArr[today] + "_close"] * 60;
   app.locationOpenTime = closestLocation[daysArr[today] + "_open"] * 60;
+
+  app.locationProxity = app.locationProxity + 1;
+  console.log(`current location #: ${app.locationProxity}`);
   app.getTravelTime();
 };
 
@@ -127,7 +134,7 @@ app.getTravelTime = function() {
 app.startCounter = function() {
   // display results here SWITCH OUT OF LOADING SCREEN!!!
   $(".name-input").html(app.locationInfo.name);
-  $(".adress-input").html(app.locationInfo.address1);
+  $(".address-input").html(app.locationInfo.address1);
   const pad = num => (num < 10 ? "0" : "") + num;
   const time = secondsInput => {
     let seconds = secondsInput;
@@ -183,12 +190,28 @@ app.calculateCounters = function() {
     } ${minutesTravel === 0 ? secondsTravel : ""}`;
     $(`li[data-mode=${key}]>.counter`).html(finalCounter);
     $(`li[data-mode=${key}]>.travel-time`).html(finalTravelTime);
+    $(".loading").css("display", "none");
+    if (countdownSeconds === 0) {
+      $(`li[data-mode=${key}]>.icon`).addClass("red");
+    } else if (countdownSeconds < 900 && countdownSeconds > 0) {
+      $(`li[data-mode=${key}]>.icon`).addClass("orange");
+    } else {
+      $(`li[data-mode=${key}]>.icon`).addClass("green");
+    }
+    $(".mode-of-transport").css("display", "flex");
+    app.locationProxity > 1
+      ? $(".next-store").css("display", "inline-block")
+      : "";
   }
 };
 
 app.events = function() {
+  $("#next").on("click", () => {
+    app.getLocationData();
+  });
   $("#refresh").on("click", () => {
-    app.getTravelTime();
+    app.locationProxity = 0;
+    app.getLocationData();
   });
   $("#map").on("click", () => {
     const win = window.open(
