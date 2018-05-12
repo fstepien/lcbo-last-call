@@ -201,8 +201,8 @@ ul {
   padding: 0;
 }
 
-wrapper {
-  max-width: 400px;
+.wrapper {
+  max-width: 500px;
   margin: 0 auto;
 }
 /* Custom CSS */
@@ -218,25 +218,34 @@ header {
   justify-content: center;
   background: linear-gradient(
       75deg,
-      rgba(52, 253, 253, 0.39),
-      rgba(176, 255, 131, 0.3)
+      rgba(52, 253, 253, 0.411),
+      rgba(52, 253, 253, 0.322)
     ),
-    url(../assets/alcohol-bar-blur-300.jpg) no-repeat;
-  background-position: cover;
+    linear-gradient(75deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.664)),
+    url(../assets/600.jpg) no-repeat;
+  background-position: 50% 45%;
+  background-size: cover;
 }
 
 header h1 {
   margin: 20px 0 15px 0;
   color: white;
   font-size: 4rem;
+  text-shadow: 2px 1px rgba(15, 71, 71, 0.404);
 }
 
 .time-container {
   display: inline-block;
 }
-
-.mode-of-transport {
+.loading {
   display: flex;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+  color: rgba(15, 71, 71, 0.61);
+}
+.mode-of-transport {
+  display: none;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -298,29 +307,29 @@ p.time-text {
   flex: 1 1 80px;
   font-family: "Roboto Mono", monospace;
   font-weight: 300;
+  color: #333;
 }
 
 .travel-time {
   font-family: "Roboto Mono", monospace;
   flex: 0 0 70px;
   font-weight: 300;
+  color: #333;
 }
 
 /* Store Info. */
 
-
 .result {
-  padding: 10px 30px;
+  padding: 0 30px;
   border-top: 2px solid lightgrey;
   border-bottom: 2px solid lightgrey;
   text-transform: uppercase;
 }
 
 .result h3 {
-  margin: 0 0 15px 0;
+  margin: 15px 0 15px 0;
   font-size: 1.6rem;
-  font-family: "Playfair Display",
-  serif;
+  font-family: "Playfair Display", serif;
 }
 
 .result p {
@@ -340,6 +349,9 @@ p.time-text {
   text-align: center;
 }
 
+.next-store {
+  display: none;
+}
 /* Utilities */
 
 .utilities {
@@ -361,7 +373,7 @@ p.time-text {
 }
 
 .utilities p {
-  margin: 0;
+  margin: 0 0 15px 0;
   text-transform: uppercase;
   font-weight: 700;
   font-size: 1.6rem;
@@ -369,6 +381,7 @@ p.time-text {
 
 .util-icon-container {
   font-size: 1.6rem;
+  margin: 0 7.5px;
 }
 
 .util-icon-container button {
@@ -377,7 +390,7 @@ p.time-text {
   display: flex;
   justify-content: center;
   background-color: transparent;
-  border: 2px solid rgb(40, 204, 204);
+  border: 2px solid rgba(23, 99, 99, 0.658);
   border-radius: 10px;
-  margin: 10px 25%;
+  color: rgba(23, 99, 99, 0.658);
 }
