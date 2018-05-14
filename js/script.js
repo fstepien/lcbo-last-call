@@ -288,7 +288,7 @@ app.liveMap = function() {
   const directionsService = new google.maps.DirectionsService();
   const directionsDisplay = new google.maps.DirectionsRenderer();
   const map = new google.maps.Map(document.getElementById("liveMap"), {
-    zoom: 12,
+    zoom: 15,
     center: destination,
     styles
   });
@@ -322,4 +322,17 @@ app.init = function() {
 
 $(function() {
   app.init();
+
+  // Hide Manual Input Form
+  $('.manual-input').hide();
+
+  // Show Manual Input Form
+  $('#manual').on('click', function () {
+    $('.manual-input').show();
+  });
+
+  // Exit Manual Input Form
+  $('.exit-button').on('click', function () {
+    $('.manual-input').hide();
+  });
 });

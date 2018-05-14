@@ -19,40 +19,54 @@
 
 <body>
 
+    <!-- Manual Input Form -->
+    <section class="manual-input">
+
+        <form action="#" class="input-form">
+
+            <label for="location">Manual Input</label>
+
+            <input type="text" name="location" id="location-input"> 
+
+            <button class="locate-me">Locate Me!</button>   
+
+            <button class="exit-button">Cancel</button>
+
+        </form>
+
+    </section>
+
+    <!-- Header/Banner -->
     <header>
         <h1>LCBO LAST CALL</h1>
     </header>
 
     <main>
 
-        <!-- <form action="#">
-
-            <label for="location visuallyhidden"></label>
-            <input type="text" placeholder="Your location" name="location" id="location">
-
-            <input type="submit" placeholder="Can I make it?">
-
-        </form> -->
-
+        <!-- Mode of transport -->
         <section class="mot">
-
-
 
             <ul class="mode-of-transport wrapper">
 
                 <li>
+
                     <span class="icon">
                     </span>
+
                     <p class="counter time-text">Leave Within</p>
+
                     <p class="travel-time time-text travel-time-counter">Travel</p>
 
                 </li>
 
                 <li data-mode="WALKING">
+
                     <span class="icon">
                         <i class="fas fa-street-view"></i>
                     </span>
+
                     <p class="counter">01:20:21</p>
+
                     <p class="travel-time">
                         <span class="travel-time-counter">1h 30m</span>
                     </p>
@@ -60,10 +74,13 @@
                 </li>
 
                 <li data-mode="BICYCLING">
+
                     <span class="icon">
                         <i class="fas fa-bicycle"></i>
                     </span>
+
                     <p class="counter">01:20:21</p>
+
                     <p class="travel-time">
                         <span class="travel-time-counter">1h 30m</span>
                     </p>
@@ -71,10 +88,13 @@
                 </li>
 
                 <li data-mode="TRANSIT">
+
                     <span class="icon">
                         <i class="fas fa-bus"></i>
                     </span>
+
                     <p class="counter">01:03:21</p>
+
                     <p class="travel-time">
                         <span class="travel-time-counter">1h 30m</span>
                     </p>
@@ -82,10 +102,13 @@
                 </li>
 
                 <li data-mode="DRIVING">
+
                     <span class="icon">
                         <i class="fas fa-car"></i>
                     </span>
+
                     <p class="counter">01:20:21</p>
+
                     <p class="travel-time">
                         <span class="travel-time-counter">1h 30m</span>
                     </p>
@@ -97,9 +120,10 @@
                 <i class="fas fa-circle-notch fa-spin fa-3x"></i>
             </div>
 
-
-
         </section>
+
+
+        <!-- Address Results -->
 
         <div class="result wrapper">
 
@@ -109,43 +133,51 @@
             <p>Name:
                 <span class="name-input">Queen & Spadina</span>
             </p>
+
             <p class="address">
                 Address:
                 <span class="address-input">401 Queen Street West</span>
             </p>
+
             <p>Hours:
                 <span class="hours-input">1pm to 9am</span>
             </p>
+
         </div>
 
-
+        <!-- Utilities Icon - Closest Store/Refresh/Manual Input/Map -->
         <section class="utilities wrapper">
+
             <ul>
                 <li>
+                    <!-- Next Closest Store -->
                     <span class="util-icon-container">
                         <button title="next store" id="next">
                             <i class="fas fa-plus"></i>
                         </button>
                     </span>
                 </li>
+
                 <li>
-                    <!-- <p>Refresh</p> -->
+                    <!-- Refresh -->
                     <span class="util-icon-container">
                         <button title="refresh travel times" id="refresh">
                             <i class="fas fa-sync"></i>
                         </button>
                     </span>
                 </li>
+
                 <li>
-                    <!-- <p>Manual</p> -->
+                    <!-- ManualInput -->
                     <span class="util-icon-container">
                         <button title="enter your location" id="manual">
                             <i class="fas fa-map-marker-alt"></i>
                         </button>
                     </span>
                 </li>
+
                 <li>
-                    <!-- <p>Map</p> -->
+                    <!-- Map -->
                     <span class="util-icon-container map">
                         <button title="go to google maps" id="map">
                             <i class="far fa-map"></i>
@@ -162,15 +194,18 @@
     <!-- Fontawesome Script -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR"
         crossorigin="anonymous"></script>
+
     <!-- JQuery -->
     <script src='https://code.jquery.com/jquery-3.2.1.min.js' integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4='
         crossorigin='anonymous'></script>
+
     <!-- Custom Script -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXtVhF-9pxpR9rf6ABUfNZJ68QOvwGWJk"></script>
     <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXtVhF-9pxpR9rf6ABUfNZJ68QOvwGWJk&callback=initMap"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCom9HKRym0JF3t_GxjLXQJIJzfqTQ5mfs" type="text/javascript"></script> -->
 
     <script src="js/script.js"></script>
+    
 </body>
 
 </html>
