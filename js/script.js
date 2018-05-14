@@ -130,11 +130,13 @@ app.getClosestLocation = function(locationData) {
     "friday",
     "saturday"
   ];
-
-  // returns the closing time of the current day in seconds (api returns in mins)
   app.locationCloseTime = closestLocation[daysArr[today] + "_close"] * 60;
+  // returns the closing time of the current day in seconds (api returns in mins)
   app.locationOpenTime = closestLocation[daysArr[today] + "_open"] * 60;
-
+  // if it's new years close time should be 6pm or earlier
+  if (new Date().getMonth() === 11 && new Date().getDate() === 31) {
+    app.locationClosetTime > 64800 ? "" : (app.locationCloseTime = 64800);
+  }
   app.locationProxity = app.locationProxity + 1;
   console.log(`current location #: ${app.locationProxity}`);
   app.getTravelTime();
@@ -251,31 +253,6 @@ app.calculateCounters = function() {
   }
 };
 
-app.events = function() {
-  $("#next").on("click", () => {
-    app.getLocationData();
-  });
-  $("#refresh").on("click", () => {
-    app.locationProxity = 0;
-    $(".next-store").css("display", "none");
-    app.getLocationData();
-  });
-  $("#map").on("click", () => {
-    const win = window.open(
-      `https://www.google.com/maps/dir/?api=1&destination=${
-        app.storeLocation.lat
-      },${app.storeLocation.long}`,
-      "_blank"
-    );
-    if (win) {
-      win.focus();
-    } else {
-      alert("Please allow popups for this website");
-    }
-  });
-  $("#manual").on("click", () => {});
-};
-
 app.liveMap = function() {
   const origin = {
     lat: app.myLocation.lat,
@@ -315,9 +292,79 @@ app.liveMap = function() {
   }
 };
 
+app.geocodeAddress = function(geocoder) {
+  let newAddress = $("#location-input").val();
+  geocoder.geocode({ address: newAddress }, function(results, status) {
+    if (status === "OK") {
+      app.myLocation.lat = results[0].geometry.location.lat();
+      app.myLocation.long = results[0].geometry.location.lng();
+      app.getLocationData();
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+};
+
+app.checkDay = function() {
+  fetch("js/holidays.json")
+    .then(res => res.json())
+    .then(holidays => {
+      let date = new Date(),
+        month = "" + (date.getMonth() + 1),
+        day = "" + date.getDate(),
+        year = date.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      let todayDate = [year, month, day].join("-");
+      const holidayIndex = holidays.findIndex(
+        holiday => holiday.date === todayDate
+      );
+
+      holidays.some(holiday => holiday.date === todayDate)
+        ? alert(
+            `Today is ${
+              holidays[holidayIndex].name
+            }, and the LCBO might be closed. You should check holiday hours at http://www.lcbo.com/`
+          )
+        : "";
+    });
+};
+
+app.events = function() {
+  $("#next").on("click", () => {
+    app.getLocationData();
+  });
+  $("#refresh").on("click", () => {
+    app.locationProxity = 0;
+    $(".next-store").css("display", "none");
+    app.getLocationData();
+  });
+  $("#map").on("click", () => {
+    const win = window.open(
+      `https://www.google.com/maps/dir/?api=1&destination=${
+        app.storeLocation.lat
+      },${app.storeLocation.long}`,
+      "_blank"
+    );
+    if (win) {
+      win.focus();
+    } else {
+      alert("Please allow popups for this website");
+    }
+  });
+  $("#manual").on("click", () => {});
+  $("#location-form").on("submit", e => {
+    e.preventDefault();
+    geocodeAddress(geocoder);
+  });
+};
+
 app.init = function() {
   app.events();
   app.geolocateMyLocation();
+  app.checkDay();
 };
 
 $(function() {
