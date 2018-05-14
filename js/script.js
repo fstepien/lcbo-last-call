@@ -251,6 +251,7 @@ app.calculateCounters = function() {
       ? $(".next-store").css("display", "inline-block")
       : "";
   }
+  currentTimeInSeconds < app.locationOpenTime ? $(`.icon`).addClass("red") : "";
 };
 
 app.liveMap = function() {
@@ -263,7 +264,11 @@ app.liveMap = function() {
     lng: app.storeLocation.long
   };
   const directionsService = new google.maps.DirectionsService();
-  const directionsDisplay = new google.maps.DirectionsRenderer();
+  const directionsDisplay = new google.maps.DirectionsRenderer({
+    polylineOptions: {
+      strokeColor: "rgb(11, 151, 151)"
+    }
+  });
   const map = new google.maps.Map(document.getElementById("liveMap"), {
     zoom: 15,
     center: destination,
@@ -292,8 +297,8 @@ app.liveMap = function() {
   }
 };
 
-app.geocodeAddress = function(geocoder) {
-  let newAddress = $("#location-input").val();
+app.geocodeAddress = function(newAddress) {
+  let geocoder = new google.maps.Geocoder();
   geocoder.geocode({ address: newAddress }, function(results, status) {
     if (status === "OK") {
       app.myLocation.lat = results[0].geometry.location.lat();
@@ -332,6 +337,10 @@ app.checkDay = function() {
     });
 };
 
+app.toggleManual = e => {
+  $(".manual-input").toggle();
+};
+
 app.events = function() {
   $("#next").on("click", () => {
     app.getLocationData();
@@ -354,10 +363,14 @@ app.events = function() {
       alert("Please allow popups for this website");
     }
   });
-  $("#manual").on("click", () => {});
-  $("#location-form").on("submit", e => {
+  $("#manual").on("click", app.toggleManual);
+  $(".exit-button").on("click", app.toggleManual);
+  $(".input-form").on("submit", e => {
     e.preventDefault();
-    geocodeAddress(geocoder);
+    let newAddress = $("#location-input").val();
+    app.locationProxity = 0;
+    app.geocodeAddress(newAddress);
+    app.toggleManual();
   });
 };
 
@@ -369,17 +382,4 @@ app.init = function() {
 
 $(function() {
   app.init();
-
-  // Hide Manual Input Form
-  $('.manual-input').hide();
-
-  // Show Manual Input Form
-  $('#manual').on('click', function () {
-    $('.manual-input').show();
-  });
-
-  // Exit Manual Input Form
-  $('.exit-button').on('click', function () {
-    $('.manual-input').hide();
-  });
 });

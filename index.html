@@ -24,13 +24,15 @@
 
         <form action="#" class="input-form">
 
-            <label for="location">Manual Input</label>
+            <label for="location">ENTER YOUR ADDRESS</label>
 
-            <input type="text" name="location" id="location-input"> 
+            <input type="text" name="location" id="location-input" required>
 
-            <button class="locate-me">Locate Me!</button>   
+            <input type="submit" class="locate-me" value="RECALCULATE LOCATION">
 
-            <button class="exit-button">Cancel</button>
+            <button class="exit-button">
+                <i class="fas fa-times"></i>
+            </button>
 
         </form>
 
@@ -205,7 +207,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCom9HKRym0JF3t_GxjLXQJIJzfqTQ5mfs" type="text/javascript"></script> -->
 
     <script src="js/script.js"></script>
-    
+
 </body>
 
 </html>
